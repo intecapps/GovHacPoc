@@ -1,0 +1,14 @@
+Co-ordinate System,
+Geographic Coordinate System:  GCS_WGS_1984,
+Datum: D_WGS_1984,
+Prime Meridian: Greenwich,
+Angular Unit: Degree,
+,
+Metadata ,
+Field Name,Description
+Road Name,Location name of monument
+Asset ID,Unique identifier for monument asset
+Easting,X Coordinate of the monument
+Northing,Y Coordinate of the monument
+Monument Type,"Type of monument e.g. commemorative fountain, fountain, public art, memorial, sculpture, plaque, statue"
+Description,Brief description of the monument including a reference number

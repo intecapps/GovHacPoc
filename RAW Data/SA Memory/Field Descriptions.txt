@@ -1,0 +1,14 @@
+How to interept the data set
+There is 1 fil
+Originating CMS 	Unity 3    http://www.unity6.on.net/page.aspx
+
+Field labels are:
+Id 	ID from the originating content management system
+Title 	of the page in the SA Memory website
+Creator	of the asset displayed on the SA Memory website
+Innopac	a link to the record in the library’s catalogue (Innopac)
+Link 	a link to a its entry in SA Memory with an image of the item
+Coverage_place	geographic place covered (if applicable) eg Loxton
+Coverage_Region	 geographic region covered (if applicable) eg Riverland
+File_Browse	link to the image shown on the web page
+NOTE – to be a usable URL, the enclosing link tags <link></link> will need to be removed, and if it is a partial URL starting with /webdata/, then add http://www.samemory.sa.gov.au before it

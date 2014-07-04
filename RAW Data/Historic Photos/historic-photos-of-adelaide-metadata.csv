@@ -1,0 +1,22 @@
+Field Name,Field Type,Description
+Record_Number,text,Record number within ACC records management system
+Image,text,Link to corresponding high resolution JPEG image
+Title,text,Name of photograph
+Description,text,Long description of photograph
+Date_Created,text,Date OR approximate starting date range of when photograph was taken
+Date_Closed,text,Date photograph was taken OR approximate end date range where the specific date is not known
+Date_Accuracy_Notes,text,Provides an indication of how accurate the date created/date closed is and any additional notes
+Town_Acre,text,Area of the city where the photograph was taken.
+,,Where the town acre is not known or the image was not taken within the Adelaide City Council town acre boundaries (eg. Botanic Gardens) then a general description is provided.
+,,Multiple values within this field ie 145 145 146 or Park Lands Park 26.
+,,
+,,Refer to the additional PDF files included with this dataset for more information about town acres.
+,,
+Format,text,"Format of original eg. still photograph, lantern slide, or display material (framed photograph reproduction created for display purposes – original photos held by State Library SA - see copyright notes)."
+Provenance,text,Archival Provenance is Council department or individual who collected and maintained each photo collection. Photos collected by 3 different provenance units:  Commercial Department; Town Clerks Department; Alexander John MORISON
+,,Blank = collector unknown
+Series,text,Archival series is the name of the collection from which photos were sourced.
+,,0059 - Historical Picture Collection collected by Commercial Department
+,,0208 - Lantern Slides – Corporation collected by Town Clerks Department
+,,0210 - Lantern Slides – Morison collected by Alexander John MORISON
+,,Blank = photos not belonging to a discernible collection
