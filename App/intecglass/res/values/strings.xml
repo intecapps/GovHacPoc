@@ -1,0 +1,33 @@
+<resources>
+
+    <string name="app_name">intecglass</string>
+    
+    <string name="mobileServiceUrl"></string>
+    <string name="webServiceUrl"></string>
+    
+    <!-- The voice trigger used for launching the app. -->
+    <string name="voice_trigger">intecglass test</string>
+
+    <string name="home_menu_explanation">
+       Welcome to [AppName]! Blah Blah Blah speil goes here!
+    </string>
+    
+    <!-- Used for tour options to describe which option will be triggered. -->
+    <string name="text_heritage">Heritage buildings</string>
+    <string name="text_monuments">Adelaide Monuments</string>
+    <string name="text_photos">Historical Adelaide Photos</string>
+    
+    <!-- Used to build a voice menu. -->
+    <string name="menu_monuments">Monuments</string>
+    <string name="menu_heritage">Heritage Buildings</string>
+    <string name="menu_photos">Historical Adelaide</string>
+    <string name="menu_show_detail">Show me more</string>
+    <string name="menu_read_on">Read on</string>
+    <string name="menu_get_directions">Take me there</string>
+    <string name="menu_check_in">Check me in</string>
+    <string name="menu_delete">Delete</string>
+
+    <string name="voice_menu_explanation">
+        Tap to toggle voice menu.
+    </string>
+</resources>
