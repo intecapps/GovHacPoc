@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using GovHacDal.Repository;
 using Heritage.Helper;
 using Heritage.Models;
 
@@ -16,7 +17,17 @@ namespace Heritage.Controllers
         [ActionName("GetPlaceMarkers")]
         public IEnumerable<PlaceMarker> GetPlacemarker(string lat, string lon)
         {
-            return MockData.GetPlacemarker(lat, lon);
+            IList<GovHacDal.spGetPlaceMarker_Result> places = PlacemarkerRepository.GetPlaceMarker(lat, lon);
+            List<PlaceMarker> convertedPlaces = new List<PlaceMarker>(places.Count());
+
+            convertedPlaces.AddRange(places.Select(p => new PlaceMarker {
+                Description = p.Description,
+                Name = p.Name,
+                PlaceMarkerId = p.ID,
+                PlaceMarkerTypeID = p.PlacemarkerTypeID
+            }));
+
+            return convertedPlaces;
         }
 
         [HttpGet]
