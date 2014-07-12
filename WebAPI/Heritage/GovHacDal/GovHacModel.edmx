@@ -166,6 +166,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="spGetImages" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PlaceMarkerID" Type="int" Mode="In" />
+          <Parameter Name="Latitude" Type="varchar" Mode="In" />
+          <Parameter Name="Longitude" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="spGetPlaceMarker" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Latitude" Type="varchar" Mode="In" />
           <Parameter Name="Longitude" Type="varchar" Mode="In" />
@@ -204,6 +209,11 @@
             <End Role="PlaceMarker" EntitySet="PlaceMarkers" />
           </AssociationSet>
           <FunctionImport Name="spGetPlaceMarker" ReturnType="Collection(GovHacSpatialModel.spGetPlaceMarker_Result)">
+            <Parameter Name="Latitude" Mode="In" Type="String" />
+            <Parameter Name="Longitude" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetImages" ReturnType="Collection(GovHacSpatialModel.spGetImages_Result)">
+            <Parameter Name="PlaceMarkerID" Mode="In" Type="Int32" />
             <Parameter Name="Latitude" Mode="In" Type="String" />
             <Parameter Name="Longitude" Mode="In" Type="String" />
           </FunctionImport>
@@ -351,6 +361,15 @@
           <Property Type="String" Name="Lat" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Long" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="spGetImages_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="ImageUrl" Nullable="false" MaxLength="1000" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="Latitude" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Longitude" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AcreNumber" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Description" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -446,6 +465,19 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetImages" FunctionName="GovHacSpatialModel.Store.spGetImages">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GovHacSpatialModel.spGetImages_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="AcreNumber" ColumnName="AcreNumber" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -460,7 +492,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

@@ -12,5 +12,8 @@ namespace Heritage.Models
         public string Description { get; set; }
         public long AcreID { get; set; }
         public string ImageUrl { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
+        public string ArceNumber { get; set; }
     }
 }

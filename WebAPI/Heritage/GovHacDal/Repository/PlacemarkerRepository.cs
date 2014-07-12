@@ -15,5 +15,13 @@ namespace GovHacDal.Repository
                 return entities.spGetPlaceMarker(lat, lon).ToList();
             }
         }
+        public static IList<spGetImages_Result> GetImages(string lat, string lon,int placeMarkerId)
+        {
+            using (GovHacSpatialEntities entities = new GovHacSpatialEntities())
+            {
+                return entities.spGetImages(placeMarkerId,lat, lon).ToList();
+            }
+        }
+
     }
 }

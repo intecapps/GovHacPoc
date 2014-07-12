@@ -36,7 +36,21 @@ namespace Heritage.Controllers
         [ActionName("GetImages")]
         public IEnumerable<Image> GetImages(string lat, string lon, int placeMarkerId) 
         {
-            return MockData.GetImages(lat, lon, placeMarkerId);
+            IList<GovHacDal.spGetImages_Result> images = PlacemarkerRepository.GetImages(lat, lon,placeMarkerId);
+            List<Image> convertedImages = new List<Image>(images.Count());
+
+            convertedImages.AddRange(images.Select(im => new Image
+            {
+                Description = im.Description,
+                Name = im.Name,
+                ImageId = im.ID,
+                ImageUrl = im.ImageUrl,
+                Latitude = im.Latitude,
+                Longitude=im.Longitude,
+                ArceNumber = im.AcreNumber
+            }));
+
+            return convertedImages;
         }
     }
 }

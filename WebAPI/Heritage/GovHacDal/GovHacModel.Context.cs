@@ -49,5 +49,22 @@ namespace GovHacDal
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetPlaceMarker_Result>("spGetPlaceMarker", latitudeParameter, longitudeParameter);
         }
+    
+        public virtual ObjectResult<spGetImages_Result> spGetImages(Nullable<int> placeMarkerID, string latitude, string longitude)
+        {
+            var placeMarkerIDParameter = placeMarkerID.HasValue ?
+                new ObjectParameter("PlaceMarkerID", placeMarkerID) :
+                new ObjectParameter("PlaceMarkerID", typeof(int));
+    
+            var latitudeParameter = latitude != null ?
+                new ObjectParameter("Latitude", latitude) :
+                new ObjectParameter("Latitude", typeof(string));
+    
+            var longitudeParameter = longitude != null ?
+                new ObjectParameter("Longitude", longitude) :
+                new ObjectParameter("Longitude", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetImages_Result>("spGetImages", placeMarkerIDParameter, latitudeParameter, longitudeParameter);
+        }
     }
 }
