@@ -1,33 +1,42 @@
 <resources>
 
     <string name="app_name">intecglass</string>
+    <!-- Mobile APi ACTIONS -->
+    <string name="action_auth">authglass</string>
+    <string name="action_getlastknownlocation">getLastKnownLocation</string>
+    <!-- Mobile APi url -->
+    <string name="mobileServiceUrl">https://***REMOVED***service.azure-mobile.net/api/</string>
+    <!-- Mobile APi url -->
+    <string name="webServiceUrl">http://***REMOVED***mirror.azurewebsites.net/api/GovHackApi/</string>
     
-    <string name="mobileServiceUrl"></string>
-    <string name="webServiceUrl"></string>
-    
+    <!-- Web APi ACTIONS -->
+    <string name="action_getimages">GetImages</string>
+    <string name="action_getplacemarkers">GetPlaceMarkers</string>
+
     <!-- The voice trigger used for launching the app. -->
     <string name="voice_trigger">intecglass test</string>
 
-    <string name="home_menu_explanation">
-       Welcome to [AppName]! Blah Blah Blah speil goes here!
+    <string name="home_menu_explanation">Welcome to [AppName]! Blah Blah Blah speil goes here!
+    <string name="home_footnote">test home foot note</string>
     </string>
     
     <!-- Used for tour options to describe which option will be triggered. -->
     <string name="text_heritage">Heritage buildings</string>
-    <string name="text_monuments">Adelaide Monuments</string>
     <string name="text_photos">Historical Adelaide Photos</string>
     
     <!-- Used to build a voice menu. -->
-    <string name="menu_monuments">Monuments</string>
     <string name="menu_heritage">Heritage Buildings</string>
-    <string name="menu_photos">Historical Adelaide</string>
+    <string name="menu_photos">Historical Photographs</string>
     <string name="menu_show_detail">Show me more</string>
     <string name="menu_read_on">Read on</string>
     <string name="menu_get_directions">Take me there</string>
     <string name="menu_check_in">Check me in</string>
     <string name="menu_delete">Delete</string>
 
-    <string name="voice_menu_explanation">
-        Tap to toggle voice menu.
+    <string name="voice_menu_explanation">Tap to toggle voice menu.
     </string>
+    <string name="home_text">Welcome!</string>
+    <string name="home_level">Level: Pioneer | 110000 pts | Rank: 1st</string>
+    <string name="home_menu_what_it_does">What the app does spiel auth goes here too. This will only run once initially or until user auths with their google ID</string>
+    
 </resources>

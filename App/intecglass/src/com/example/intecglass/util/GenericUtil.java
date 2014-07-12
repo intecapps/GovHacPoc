@@ -242,16 +242,22 @@ public class GenericUtil {
 	 *            the parameters to use in the action
 	 */
 	public static void executeGet(Context context, String action,
-			List<BasicNameValuePair> parameters, ServerCallbackListener adapter) {
-		
+			List<BasicNameValuePair> parameters, ServerCallbackListener adapter, Boolean isWebApi) {
+		final GetURL getUrl;
 		if (!isOnline(context)) {
 			ActivityUtil.showNoConnectivityMessage(context);
 			return;
 		}
 		
 		final PostToURLTask task = new PostToURLTask();
-		final GetURL getUrl = new GetURL(getWebServiceUri(context) + action, adapter,
+		if (isWebApi) {
+		getUrl = new GetURL(getWebServiceUri(context) + action, adapter,
 				parameters);
+		}
+		else { //its a mobile mirror api call so go there instead
+		getUrl = new GetURL(getMobileServiceUri(context) + action, adapter,
+					parameters);
+		}
 		Log.d(TAG, "URL is :" + getUrl.getUrl());
 		task.execute(getUrl);
 	}
@@ -394,9 +400,7 @@ public class GenericUtil {
 	 * @return the value of the R.string.webServiceUri string value.
 	 */
 	public static String getWebServiceUri(Context context) {
-		if (StringUtil.isEmpty(uri)) {
-			uri = context.getString(R.string.webServiceUrl);
-		}
+		uri = context.getString(R.string.webServiceUrl);
 		return uri;
 	}
 	
@@ -407,9 +411,7 @@ public class GenericUtil {
 	 * @return the value of the R.string.mobileServiceUri string value.
 	 */
 	public static String getMobileServiceUri(Context context) {
-		if (StringUtil.isEmpty(uri)) {
-			uri = context.getString(R.string.mobileServiceUrl);
-		}
+		uri = context.getString(R.string.mobileServiceUrl);
 		return uri;
 	}
 

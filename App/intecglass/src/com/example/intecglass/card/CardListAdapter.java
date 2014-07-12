@@ -28,11 +28,11 @@ import com.google.android.glass.widget.CardScrollAdapter;
 /**
  * Adapter class that handles list of cards.
  */
-public class CardAdapter extends CardScrollAdapter {
+public class CardListAdapter extends CardScrollAdapter {
 
     private final List<Card> mCards;
     
-    public CardAdapter(List<Card> cards) {
+    public CardListAdapter(List<Card> cards) {
     	mCards = cards;
     }
 
@@ -70,4 +70,6 @@ public class CardAdapter extends CardScrollAdapter {
         }
         return AdapterView.INVALID_POSITION;
     }
+    
+
 }

@@ -1,6 +1,5 @@
 package com.example.intecglass.util;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,10 +9,10 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
+import com.example.intecglass.model.Image;
+import com.example.intecglass.model.Location;
 import com.example.intecglass.model.Module;
 import com.example.intecglass.model.NotificationTypeSetting;
-import com.example.intecglass.model.Location;
-import com.example.intecglass.model.LocationDetail;
 
 public class JSONUtil {
 	
@@ -28,26 +27,7 @@ public class JSONUtil {
      */
      private static final String ACTION_NAME_KEY = "ActionName";
 	
-	public static List<Location> getTendersFromJsonObject(JSONObject obj) {
-		List<Location> tenders = new ArrayList<Location>();
-		
-		try {
-			final JSONArray responseObject = obj.getJSONArray(RESPONSE_OBJECT);
-			
-			int size=responseObject.length();
-			for (int i=0; i<size; i++) {
-				final JSONObject row = (JSONObject) responseObject.get(i);
-				final Location tender = getTenderFromJSONObject(row);
-				if (tender != null) {
-					tenders.add(tender);
-				}
-			}
-			
-		} catch (JSONException e) {
-			Log.e(TAG, e.getMessage(), e);
-		}
-		return tenders;
-	}
+
 	
 	
 	public static List<NotificationTypeSetting> getNotificationTypeSettingsFromJsonObject(JSONObject obj) {
@@ -131,55 +111,117 @@ public class JSONUtil {
 		
 		return ackMessage;
 	}
+	
+	
+	public static Image getImageFromJSONObject(JSONObject row) {
+		Image image; 
+		try {
+			image = new Image();
+			image.setImageId(row.getString("ImageId"));
+			image.setName(row.getString("Name"));
+			image.setDescription(row.getString("Description"));
+			image.setImageUrl(row.getString("ImageUrl"));
+			
+		} catch (Exception e) {
+			Log.e(TAG, " Exception in Get Image:" + e.getMessage());
+			image = null;
+		}
+		
+		return image;
+	}
+	
+	
+	public static List<Image> getImagesFromJSONObject(JSONObject obj) {
+		List<Image> images = new ArrayList<Image>();
+		try {
+			final JSONArray responseObject = obj.getJSONArray(RESPONSE_OBJECT);
+			
+			int size=responseObject.length();
+			for (int i=0; i<size; i++) {
+				final JSONObject row = (JSONObject) responseObject.get(i);
+				final Image image = getImageFromJSONObject(row);
+				if (image != null) {
+					images.add(image);
+				}
+			}
+			
+		} catch (JSONException e) {
+			Log.e(TAG, e.getMessage(), e);
+		}
+		return images;
+	}
+	
 	/**
 	 * This method returns a {@link Location} object from the passed in JSONObject. If we have issues parsing the
 	 * JSONObject then a null tender will be returned.
 	 * @param row the JSONObject to parse.
 	 * @return a {@link Location} populated with the details in the JSONObject.
 	 */
-	public static Location getTenderFromJSONObject(JSONObject row) {
-		Location tender; 
+	public static Location getLocationFromJSONObject(JSONObject row) {
+		Location location; 
 		try {
-			tender = new Location();
-			tender.setAgencyName(row.getString("AgencyName"));
-			tender.setCategory(row.getString("Category"));
-			tender.setClosingDate(DateUtil.parseDefaultDateFormat(row.getString("ClosingDate")));
-			tender.setCode(row.getString("Code"));
-			tender.setId(row.getLong("Id"));
-			tender.setOpeningDate(DateUtil.parseDefaultDateFormat(row.getString("OpeningDate")));
-			tender.setTenderState(row.getString("TenderState"));
-			tender.setTenderType(row.getString("TenderType"));
-			tender.setTitle(row.getString("Title"));
+			location = new Location();
+			location.setLocationId(row.getString("PlaceMarkerId"));
+			location.setName(row.getString("Name"));
+			location.setDescription(row.getString("Description"));
+			location.setPlaceMarkerTypeId(row.getString("PlaceMarkerTypeID"));
+			
+		} catch (Exception e) {
+			Log.e(TAG, " Exception in Get Location:" + e.getMessage());
+			location = null;
+		}
+		
+		return location;
+	}
+	
+	public static List<Location> getLocationsFromJSONObject(JSONObject obj) {
+		List<Location> locations = new ArrayList<Location>();
+		try {
+			final JSONArray responseObject = obj.getJSONArray(RESPONSE_OBJECT);
+			
+			int size=responseObject.length();
+			for (int i=0; i<size; i++) {
+				final JSONObject row = (JSONObject) responseObject.get(i);
+				final Location location = getLocationFromJSONObject(row);
+				if (location != null) {
+					locations.add(location);
+				}
+			}
+			
+		} catch (JSONException e) {
+			Log.e(TAG, e.getMessage(), e);
+		}
+		return locations;
+	}
+	
+
+	/**
+	 * This method returns a {@link Location} object from the passed in JSONObject. If we have issues parsing the
+	 * JSONObject then a null tender will be returned.
+	 * @param row the JSONObject to parse.
+	 * @return a {@link Location} populated with the details in the JSONObject.
+	 */
+	/*public static Location getAccountFromJSONObject(JSONObject row) {
+		Location location; 
+		try {
+			location = new Location();
+			location.setAgencyName(row.getString("AgencyName"));
+			location.setCategory(row.getString("Category"));
+			location.setClosingDate(DateUtil.parseDefaultDateFormat(row.getString("ClosingDate")));
+			location.setCode(row.getString("Code"));
+			location.setId(row.getLong("Id"));
+			location.setOpeningDate(DateUtil.parseDefaultDateFormat(row.getString("OpeningDate")));
+			location.setTenderState(row.getString("TenderState"));
+			location.setTenderType(row.getString("TenderType"));
+			location.setTitle(row.getString("Title"));
 			
 		} catch (Exception e) {
 			Log.e(TAG, " Exception in Get Tender:" + e.getMessage());
-			tender = null;
+			location = null;
 		}
 		
-		return tender;
-	}
-
-
-	
-	public static LocationDetail getTenderDetailsFromJSONObject(JSONObject row) {
-		
-		LocationDetail tenderDetail = null;
-		try {
-			row = row.getJSONObject(RESPONSE_OBJECT);
-			final Location tender = getTenderFromJSONObject(row);
-			
-			tenderDetail = new LocationDetail(tender);
-			tenderDetail.setDescription(row.getString("Description"));
-			tenderDetail.setElectronicTender(row.getBoolean("ElectronicTender"));
-			tenderDetail.setWatchedTender(row.getBoolean("WatchedTender"));
-		} catch (JSONException e) {
-			Log.e(TAG, "Exception in getTenderDetailsFromJSONObject: " + e.getMessage());
-		} 
-
-		return tenderDetail;
-	}
-
-
+		return location;
+	}*/
 
 	public static String getTermsAndConditions(JSONObject obj) {
 		String tandc = "";

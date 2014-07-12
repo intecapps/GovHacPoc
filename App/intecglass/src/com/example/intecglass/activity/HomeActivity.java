@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.intecglass;
+package com.example.intecglass.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,10 +26,8 @@ import android.widget.AdapterView;
 
 import com.example.intecglass.activity.AbstractActivity;
 import com.example.intecglass.activity.HomeActivity;
-import com.example.intecglass.activity.AuthActivity;
 import com.example.intecglass.card.CardListAdapter;
 import com.example.intecglass.constant.Constant;
-import com.example.intecglass.persistence.Storage;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
@@ -45,9 +43,9 @@ import com.google.android.glass.widget.CardScrollView;
  * <li> VoiceMenu
  * </ol>
  */
-public class IntecggActivity extends AbstractActivity implements Constant{
+public class HomeActivity extends AbstractActivity implements Constant{
 
-    private static final String TAG = IntecggActivity.class.getSimpleName();
+    private static final String TAG = HomeActivity.class.getSimpleName();
 
     private CardScrollAdapter mAdapter;
     private CardScrollView mCardScroller;
@@ -61,7 +59,7 @@ public class IntecggActivity extends AbstractActivity implements Constant{
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
-        mAdapter = new CardListAdapter(createHomeCards(this));
+        mAdapter = new CardListAdapter(createOptionsCards(this));
         mCardScroller = new CardScrollView(this);
         mCardScroller.setAdapter(mAdapter);
         setContentView(mCardScroller);
@@ -91,16 +89,12 @@ public class IntecggActivity extends AbstractActivity implements Constant{
                 Log.d(TAG, "Clicked view at position " + position + ", row-id " + id);
                 int soundEffect = Sounds.TAP;
                 switch (position) {
-                    case HOME:
-                    	if (Storage.getIntroSeen(getBaseContext()))
-                    	{
-                    		startActivity(new Intent(IntecggActivity.this, HomeActivity.class));
-                    	}
-                    	else {
-                    		startActivity(new Intent(IntecggActivity.this, AuthActivity.class));
-                    		// set intro seen by user
-                    		Storage.persistIntroSeen(getBaseContext());
-                    	}
+                    case LOCATIONS:
+                        startActivity(new Intent(HomeActivity.this, LocationActivity.class));
+                        break;
+                        
+                    case PHOTOS:
+                        startActivity(new Intent(HomeActivity.this, PhotoActivity.class));
                         break;
 
                     default:

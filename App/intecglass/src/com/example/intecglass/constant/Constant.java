@@ -1,10 +1,19 @@
 package com.example.intecglass.constant;
 
 public interface Constant {
-    static final int HERITAGE = 0;
-    static final int MONUMENTS = 1;
-    static final int PHOTOS = 2;
+	//HOME STACK
+	static final int HOME = 0;
+	
+	//AUTH STACK
+    static final int AUTH = 0;
     
+    //MAIN STACK
+    static final int LOCATIONS = 0;
+    static final int PHOTOS = 1;
+    
+    public static final String LAT = "lat";
+    public static final String LON = "lon";
+    public static final String PLACEMARKERID = "placeMarkerId";
     public static final String ACTIONDATASERVICECHECK = "ServiceCheck";
 	
 	public static final long SERVICE_READ_TIMEOUT = 20000;

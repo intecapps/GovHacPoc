@@ -29,6 +29,9 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -38,10 +41,15 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.example.intecglass.R;
-import com.example.intecglass.card.CardAdapter;
+import com.example.intecglass.card.CardListAdapter;
+import com.example.intecglass.constant.Constant;
+import com.example.intecglass.listener.ServerCallbackListener;
 import com.example.intecglass.model.Location;
+import com.example.intecglass.persistence.Storage;
+import com.example.intecglass.util.GenericUtil;
 import com.example.intecglass.util.JSONUtil;
 import com.google.android.glass.app.Card;
 import com.google.android.glass.app.Card.ImageLayout;
@@ -50,38 +58,43 @@ import com.google.android.glass.widget.CardScrollView;
 /**
  * Creates a card scroll view with examples of different image layout cards.
  */
-public final class HeritageActivity extends Activity {
+public final class LocationActivity extends Activity implements ServerCallbackListener{
 
     private CardScrollView mCardScroller;
     
     ArrayList<Card> cards = new ArrayList<Card>();
-    
-    public String outputString  = "No Data";
+
+    public String outputString  = "There was an isue getting the loction data. Please try again later";
     public Bitmap image;
+   
 
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
      // get an image
-        String url = "https://farm8.staticflickr.com/7338/13711227263_3d8e0a35c5_b.jpg";
-        new ImageDownloader().execute(url);
+        //String url = "https://farm8.staticflickr.com/7338/13711227263_3d8e0a35c5_b.jpg";
+        //new ImageDownloader().execute(url);
+
+        //get my location from mirror
+        String action = getString(R.string.action_getlastknownlocation);
+        GenericUtil.executeGet(this, action, null, this, false);
         
-        //get some data
-        new ReadWeatherJSONFeedTask().execute("http://etendersazure.azurewebsites.net/api/SA/GetOpenTenders?deviceUID=0");  
         
-        
-        
+
+        //set up scroll
         mCardScroller = new CardScrollView(this);
-        mCardScroller.setAdapter(new CardAdapter(createCards(this)));
+        mCardScroller.setAdapter(new CardListAdapter(createCards(this)));
         setContentView(mCardScroller);
     }
     
     
-    private List<Card> updateCards(Context context) {
-			cards.add(getImagesCard(context)
-					.setImageLayout(ImageLayout.LEFT)
-	        		.addImage(image)
-	                .setText(outputString));
+    private List<Card> updateCards(Context context, String name, String description) {
+    	Card card = new Card(context);
+    	card.setText(name + "\n" + description);
+    	
+    	//View card1View = card.getView();	
+    	
+    	cards.add(card);
         return cards;
     }
 
@@ -112,35 +125,7 @@ public final class HeritageActivity extends Activity {
         return stringBuilder.toString();
     }
     
-    private class ReadWeatherJSONFeedTask extends AsyncTask
-    <String, Void, String> {
-        protected String doInBackground(String... urls) {
-            return readJSONFeed(urls[0]);
-        }
- 
-        protected void onPostExecute(String result) {
-            try {
-            	//iterate through results adding cards
-            	JSONObject jsonObject = new JSONObject(result);
-                List<Location> tenderList = JSONUtil.getTendersFromJsonObject(jsonObject);
-                for (Location item : tenderList) {
-					StringBuilder sb = new StringBuilder();
-					sb.append(item.getCode()+"  ");
-					sb.append(item.getTitle()+"  ");
-					sb.append(item.getAgencyName()+"  ");
-					sb.append(item.getCategory()+"  ");
-					sb.append(item.getClosingDate()+"  ");
-					outputString = sb.toString();
-					updateCards(getBaseContext());
-				}
-            
-                
-                
-            } catch (Exception e) {
-                Log.d("ReadJSONFeedTask", e.getLocalizedMessage());
-            }          
-        }
-    }
+  
     
     
     /**
@@ -148,13 +133,13 @@ public final class HeritageActivity extends Activity {
      */
     private List<Card> createCards(Context context) {
 
-        cards.add(getImagesCard(context)
+        cards.add(getCard(context)
                 .setImageLayout(ImageLayout.FULL)
-                .setText(R.string.home_menu_explanation));
+                .setText(R.string.menu_heritage));
         return cards;
     }
 
-    private Card getImagesCard(Context context) {
+    private Card getCard(Context context) {
         Card card = new Card(context);
         return card;
     }
@@ -170,76 +155,57 @@ public final class HeritageActivity extends Activity {
         mCardScroller.deactivate();
         super.onPause();
     }
-    
-    private class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
 
-		@Override
-		protected Bitmap doInBackground(String... param) {
-			// TODO Auto-generated method stub
-			return downloadBitmap(param[0]);
-		}
 
-		@Override
-		protected void onPreExecute() {
-			Log.i("Async-Example", "onPreExecute Called");
-			
-
-		}
-
-		@Override
-		protected void onPostExecute(Bitmap result) {
-			Log.i("Async-Example", "onPostExecute Called");
-			image = result;
-
-		}
-
-		private Bitmap downloadBitmap(String url) {
-			// initilize the default HTTP client object
-			final DefaultHttpClient client = new DefaultHttpClient();
-
-			//forming a HttoGet request 
-			final HttpGet getRequest = new HttpGet(url);
+	@Override
+	public void processGetCallback(JSONObject obj) {
+		// TODO Auto-generated method stub
+		//Log.i("LoctaionActivity", obj.toString());
+		if (obj.has("kind") && obj.has("items")) {
 			try {
-
-				HttpResponse response = client.execute(getRequest);
-
-				//check 200 OK for success
-				final int statusCode = response.getStatusLine().getStatusCode();
-
-				if (statusCode != HttpStatus.SC_OK) {
-					Log.w("ImageDownloader", "Error " + statusCode + 
-							" while retrieving bitmap from " + url);
-					return null;
-
-				}
-
-				final HttpEntity entity = response.getEntity();
-				if (entity != null) {
-					InputStream inputStream = null;
-					try {
-						// getting contents from the stream 
-						inputStream = entity.getContent();
-
-						// decoding stream data back into image Bitmap that android understands
-						final Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-
-						return bitmap;
-					} finally {
-						if (inputStream != null) {
-							inputStream.close();
-						}
-						entity.consumeContent();
-					}
-				}
-			} catch (Exception e) {
-				// You Could provide a more explicit error message for IOException
-				getRequest.abort();
-				Log.e("ImageDownloader", "Something went wrong while" +
-						" retrieving bitmap from " + url + e.toString());
-			} 
-
-			return null;
+				JSONArray array = obj.getJSONArray("items");
+				
+				JSONObject myLocation = array.getJSONObject(0);
+				
+				String lat = myLocation.getString("latitude");
+				String lon = myLocation.getString("longitude");
+				
+				/*String longitude = myLocation.getString("longitude");
+				String latitude = myLocation.getString("latitude");*/
+				
+				//lets get some data for our Locations list
+				final List<BasicNameValuePair> parameters = new ArrayList<BasicNameValuePair>();
+		        String action = getString(R.string.action_getplacemarkers);
+				parameters.add(new BasicNameValuePair(Constant.LAT, lat));
+				parameters.add(new BasicNameValuePair(Constant.LON, lon));
+		        GenericUtil.executeGet(this, action, parameters, this, true);
+				
+			} catch (JSONException e){
+			Log.e("LocationActivity", e.getMessage());
+			}
 		}
+		else {
+			List<Location> list = JSONUtil.getLocationsFromJSONObject(obj);
+	        for (Location item : list) {
+	        	String Name = item.getName();
+	        	String Description = item.getDescription();
+				updateCards(getBaseContext(), Name, Description);
+			}
+		}
+	}
+
+
+	@Override
+	public void processPostCallback(JSONObject obj) {
+		// TODO Auto-generated method stub
+		Log.i("LoctaionActivity", obj.toString());
+	}
+
+
+	@Override
+	public void showConnectionErrorMessage() {
+		// TODO Auto-generated method stub
+		
 	}
  
 }

@@ -1,25 +1,24 @@
 package com.example.intecglass.model;
 
 
-public class Location extends Base {
-	private String LocationId;
+public class Image extends Base {
+	private String ImageId;
     
     private String Name;
 
     public String Description;
     
-    public String Lat;
+    public String AcreNumber;
     
-    public String Lon;
     
-    private String PlaceMarkerTypeId;
+    private String ImageUrl;
    
-    public void setLocationId(String locationId) {
-        this.LocationId = locationId;
+    public void setImageId(String locationId) {
+        this.ImageId = locationId;
     }
 
-    public String getLocationId() {
-        return LocationId;
+    public String getImageId() {
+        return ImageId;
     }
 
     public String getName() {
@@ -38,28 +37,20 @@ public class Location extends Base {
         this.Description = description;
     }
     
-    public String getLat() {
-        return Lat;
+    public String getAcreNumber() {
+        return AcreNumber;
     }
 
-    public void setLat(String lat) {
-        this.Lat = lat;
-    }
-    
-    public String getLon() {
-        return Lon;
+    public void setAcreNumber(String acreNumber) {
+        this.AcreNumber = acreNumber;
     }
 
-    public void setLon(String lon) {
-        this.Lon = lon;
+    public String getImageUrl() {
+        return ImageUrl;
     }
 
-    public String getPlaceMarkerTypeId() {
-        return PlaceMarkerTypeId;
-    }
-
-    public void setPlaceMarkerTypeId(String placeMarkerTypeId) {
-        this.PlaceMarkerTypeId = placeMarkerTypeId;
+    public void setImageUrl(String imageUrl) {
+        this.ImageUrl = imageUrl;
     }
     
     /**
@@ -72,12 +63,11 @@ public class Location extends Base {
         int result = super.hashCode();
 
         // calculate the hash code for record.
-        result = calculateHashCode(prime, result, LocationId);
+        result = calculateHashCode(prime, result, ImageId);
         result = calculateHashCode(prime, result, Name);
         result = calculateHashCode(prime, result, Description);
-        result = calculateHashCode(prime, result, Lat);
-        result = calculateHashCode(prime, result, Lon);
-        result = calculateHashCode(prime, result, PlaceMarkerTypeId);
+        result = calculateHashCode(prime, result, AcreNumber);
+        result = calculateHashCode(prime, result, ImageUrl);
         return result;
     }
 
@@ -91,16 +81,15 @@ public class Location extends Base {
     public boolean equals(final Object obj) {
         boolean res;
 
-        if (obj instanceof Location) {
-        	Location other = (Location) obj;
+        if (obj instanceof Image) {
+        	Image other = (Image) obj;
             res = (obj == this) || (
             		super.equals(obj)
-                    && equals(LocationId, other.LocationId)
+                    && equals(ImageId, other.ImageId)
                     && equals(Name, other.Name)
                     && equals(Description, other.Description)
-                    && equals(Lat, other.Lat)
-                    && equals(Lon, other.Lon)
-                    && equals(PlaceMarkerTypeId, other.PlaceMarkerTypeId)
+                    && equals(AcreNumber, other.AcreNumber)
+                    && equals(ImageUrl, other.ImageUrl)
                     );
         } else {
             res = false;

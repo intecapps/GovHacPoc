@@ -18,17 +18,14 @@ public class LocationDetail extends Location {
 		init(tender);
 	}
 	
-	private void init(Location tender) {
-		if (tender != null) {
-			setAgencyName(tender.getAgencyName());
-			setCategory(tender.getCategory());
-			setClosingDate(tender.getClosingDate());
-			setCode(tender.getCode());
-			setId(tender.getId());
-			setOpeningDate(tender.getOpeningDate());
-			setTenderState(tender.getTenderState());
-			setTenderType(tender.getTenderType());
-			setTitle(tender.getTitle());
+	private void init(Location location) {
+		if (location != null) {
+			setName(location.getName());
+			setDescription(location.getDescription());
+			setLat(location.getLat());
+			setLon(location.getLon());
+			setLocationId(location.getLocationId());
+			setPlaceMarkerTypeId(location.getPlaceMarkerTypeId());
 		}
 	}
 	

@@ -19,9 +19,9 @@ public class Storage {
 	private static final String PREFERENCES_NAME = "userPreferences-%s";
 	
 	/**
-	 * They key used to store the fact that the terms and conditions have been updated.
+	 * They key used to store the fact that the into has been seen.
 	 */
-	private static final String ACCEPTED_TERMS_AND_CONDITIONS = "TAndCAccepted";
+	private static final String INTRO_SEEN = "IntroSeen";
 	
 	private static final String DEVICE_UUID = "DeviceUUID";
 	
@@ -37,8 +37,8 @@ public class Storage {
 	 * This method sets the fact that the terms and conditions have been accepted.
 	 * @param context
 	 */
-	public static void persistAcceptTermsAndConditions(Context context) {
-		persistObject(context, ACCEPTED_TERMS_AND_CONDITIONS, true);
+	public static void persistIntroSeen(Context context) {
+		persistObject(context, INTRO_SEEN, true);
 	}
 	
 	/**
@@ -54,8 +54,8 @@ public class Storage {
 	 * @param context
 	 * @return true if the user has accepted the terms and conditions otherwise false will be returned.
 	 */
-	public static boolean getAcceptedTermsAndConditions(Context context) {
-		return getPersistedBoolean(context, ACCEPTED_TERMS_AND_CONDITIONS);
+	public static boolean getIntroSeen(Context context) {
+		return getPersistedBoolean(context, INTRO_SEEN);
 	}
 	
 	/**
