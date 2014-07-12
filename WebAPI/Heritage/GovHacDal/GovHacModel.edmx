@@ -348,6 +348,8 @@
           <Property Type="String" Name="Description" Nullable="true" />
           <Property Type="Int32" Name="PlacemarkerTypeID" Nullable="false" />
           <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Lat" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Long" Nullable="true" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -439,6 +441,8 @@
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="PlacemarkerTypeID" ColumnName="PlacemarkerTypeID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Lat" ColumnName="Lat" />
+                <ScalarProperty Name="Long" ColumnName="Long" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

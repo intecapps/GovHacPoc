@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Heritage.Schedule;
 
 namespace Heritage
 {
@@ -22,6 +23,9 @@ namespace Heritage
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            ScheduleUtil.ScheduleJob<LastKnownLocationJob>("0 0/5 * * * ?");
+            ScheduleUtil.StartJobs();
         }
     }
 }

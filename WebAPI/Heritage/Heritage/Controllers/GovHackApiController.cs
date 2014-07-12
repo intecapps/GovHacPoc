@@ -24,7 +24,9 @@ namespace Heritage.Controllers
                 Description = p.Description,
                 Name = p.Name,
                 PlaceMarkerId = p.ID,
-                PlaceMarkerTypeID = p.PlacemarkerTypeID
+                PlaceMarkerTypeID = p.PlacemarkerTypeID,
+                Longitude = p.Long,
+                Latitude = p.Lat
             }));
 
             return convertedPlaces;
