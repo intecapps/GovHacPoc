@@ -10,12 +10,17 @@ using Heritage.Models;
 
 namespace Heritage.Controllers
 {
+    public class JsonResponse<T>
+    {
+        public T ResponseObject { get; set; }
+    }
+
     public class GovHackApiController : ApiController
     {
         // GET api/govhackapi
         [HttpGet]
         [ActionName("GetPlaceMarkers")]
-        public IEnumerable<PlaceMarker> GetPlacemarker(string lat, string lon)
+        public JsonResponse<IEnumerable<PlaceMarker>> GetPlacemarker(string lat, string lon)
         {
             IList<GovHacDal.spGetPlaceMarker_Result> places = PlacemarkerRepository.GetPlaceMarker(lat, lon);
             List<PlaceMarker> convertedPlaces = new List<PlaceMarker>(places.Count());
@@ -29,12 +34,15 @@ namespace Heritage.Controllers
                 Latitude = p.Lat
             }));
 
-            return convertedPlaces;
+            JsonResponse<IEnumerable<PlaceMarker>> res = new JsonResponse<IEnumerable<PlaceMarker>>();
+            res.ResponseObject = convertedPlaces;
+
+            return res;
         }
 
         [HttpGet]
         [ActionName("GetImages")]
-        public IEnumerable<Image> GetImages(string lat, string lon, int placeMarkerId) 
+        public JsonResponse<IEnumerable<Image>> GetImages(string lat, string lon, int placeMarkerId) 
         {
             IList<GovHacDal.spGetImages_Result> images = PlacemarkerRepository.GetImages(lat, lon,placeMarkerId);
             List<Image> convertedImages = new List<Image>(images.Count());
@@ -50,7 +58,10 @@ namespace Heritage.Controllers
                 ArceNumber = im.AcreNumber
             }));
 
-            return convertedImages;
+            JsonResponse<IEnumerable<Image>> res = new JsonResponse<IEnumerable<Image>>();
+            res.ResponseObject = convertedImages;
+
+            return res;
         }
     }
 }
