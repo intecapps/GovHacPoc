@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeritageMVC", "Heritage\HeritageMVC.csproj", "{D77749FC-7A35-403F-94B2-9CF1074E2E36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeritageSVC", "HeritageSVC\HeritageSVC.csproj", "{00D7DDBF-8401-41BD-8CBF-68ED0BE3FB38}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeritageWebApi", "HeritageWebApi\HeritageWebApi.csproj", "{59C78005-C2AC-491A-B4E8-974F5767B2FE}"
 EndProject
 Global
@@ -29,16 +27,6 @@ Global
 		{D77749FC-7A35-403F-94B2-9CF1074E2E36}.Release|ARM.ActiveCfg = Release|Any CPU
 		{D77749FC-7A35-403F-94B2-9CF1074E2E36}.Release|x64.ActiveCfg = Release|Any CPU
 		{D77749FC-7A35-403F-94B2-9CF1074E2E36}.Release|x86.ActiveCfg = Release|Any CPU
-		{00D7DDBF-8401-41BD-8CBF-68ED0BE3FB38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{00D7DDBF-8401-41BD-8CBF-68ED0BE3FB38}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{00D7DDBF-8401-41BD-8CBF-68ED0BE3FB38}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{00D7DDBF-8401-41BD-8CBF-68ED0BE3FB38}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{00D7DDBF-8401-41BD-8CBF-68ED0BE3FB38}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{00D7DDBF-8401-41BD-8CBF-68ED0BE3FB38}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{00D7DDBF-8401-41BD-8CBF-68ED0BE3FB38}.Release|Any CPU.Build.0 = Release|Any CPU
-		{00D7DDBF-8401-41BD-8CBF-68ED0BE3FB38}.Release|ARM.ActiveCfg = Release|Any CPU
-		{00D7DDBF-8401-41BD-8CBF-68ED0BE3FB38}.Release|x64.ActiveCfg = Release|Any CPU
-		{00D7DDBF-8401-41BD-8CBF-68ED0BE3FB38}.Release|x86.ActiveCfg = Release|Any CPU
 		{59C78005-C2AC-491A-B4E8-974F5767B2FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{59C78005-C2AC-491A-B4E8-974F5767B2FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59C78005-C2AC-491A-B4E8-974F5767B2FE}.Debug|ARM.ActiveCfg = Debug|Any CPU
