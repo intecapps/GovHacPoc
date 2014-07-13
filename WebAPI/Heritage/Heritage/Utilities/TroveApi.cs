@@ -24,6 +24,10 @@ namespace Heritage.Utilities
 
         private const string NAA_URL = "http://recordsearch.naa.gov.au";
 
+        private const string ART_GALLERY_URL = "http://artsearch.nga.gov.au/Images/SML/";
+
+        private const string ART_GALLERY_LARGE_IMAGE_URL = "http://artsearch.nga.gov.au/Images/LRG/";
+
         public static List<Image> GetImages(string query)
         {
             List<Image> images = new List<Image>();
@@ -64,6 +68,10 @@ namespace Heritage.Utilities
                 {
                     img = GetNaaImage(node, imageUrl);
                 }
+                else if (imageUrl.StartsWith(ART_GALLERY_URL))
+                {
+                    img = GetArtGalleryImage(node, imageUrl);
+                }
                 
 
                 /*
@@ -86,6 +94,23 @@ namespace Heritage.Utilities
 
             }
             return images;
+        }
+
+        private static Image GetArtGalleryImage(XmlNode node, string imageUrl)
+        {
+            imageUrl = imageUrl.Replace(ART_GALLERY_URL, ART_GALLERY_LARGE_IMAGE_URL);
+
+            XmlNode parentNode = node.ParentNode;
+            XmlNode snippet = parentNode.SelectSingleNode("snippet");
+
+            XmlNode issuedNode = parentNode.SelectSingleNode("issued");
+            XmlNode titleNode = parentNode.SelectSingleNode("title");
+
+            string desc = (parentNode == null || snippet == null) ? "" : snippet.InnerText;
+            string issued = (issuedNode == null) ? "" : issuedNode.InnerText;
+            string title = (titleNode == null) ? "" : titleNode.InnerText;
+
+            return new Image { ImageUrl = imageUrl, Name = desc, Description = desc, PublishDate = issued, Title = title };
         }
 
         private static Image GetNaaImage(XmlNode node, string imageUrl)

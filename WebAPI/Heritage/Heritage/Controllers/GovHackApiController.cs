@@ -67,11 +67,7 @@ namespace Heritage.Controllers
                 IList<GovHacDal.spGetImages_Result> images = PlacemarkerRepository.GetImages(lat, lon, placeMarkerId);
                 List<Image> convertedImages = new List<Image>(images.Count());
 
-                if (placeMarkerId > 0)
-                {
-                    // then we need to perform a search in trove for the keyword on the placemarker.
-                    TroveApi.GetImages("Adelaide Mosque");
-                }
+                
                 convertedImages.AddRange(images.Select(im => new Image
                 {
                     Description = im.Description,
@@ -83,6 +79,16 @@ namespace Heritage.Controllers
                     ArceNumber = im.AcreNumber
                 }));
 
+                if (placeMarkerId > 0)
+                {
+                    // then we need to perform a search in trove for the keyword on the placemarker.
+                    List<Image> troveImages = TroveApi.GetImages("Adelaide GPO");
+
+                    List<String> convertedImageUrls = convertedImages.Select(ci => ci.ImageUrl).ToList();
+
+                    convertedImages.AddRange(troveImages.Where(im => convertedImageUrls.Contains(im.ImageUrl) == false));
+                    
+                }
                 res.ResponseObject = convertedImages;
             }
             catch (Exception e)
