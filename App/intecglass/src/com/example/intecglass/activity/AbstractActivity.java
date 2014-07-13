@@ -38,7 +38,7 @@ public class AbstractActivity extends Activity implements Constant {
     public static List<Card> createOptionsCards(Context context) {
         ArrayList<Card> cards = new ArrayList<Card>();
         cards.add(LOCATIONS, new Card(context).setText(R.string.text_heritage).setImageLayout(ImageLayout.FULL)
-                .addImage(R.drawable.locationbg).setFootnote("What do you want to go see? Swipe for options"));
+                .addImage(R.drawable.locationbg).setFootnote("Swipe for locations, photos and challenges"));
         
         cards.add(PHOTOS, new Card(context).setText(R.string.text_photos).setImageLayout(ImageLayout.FULL)
                 .addImage(R.drawable.photobg));

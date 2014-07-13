@@ -14,9 +14,9 @@
     <string name="action_getplacemarkers">GetPlaceMarkers</string>
 
     <!-- The voice trigger used for launching the app. -->
-    <string name="voice_trigger">intecglass test</string>
+    <string name="voice_trigger">When the heck am I?</string>
 
-    <string name="home_menu_explanation">Welcome to [AppName]! Blah Blah Blah speil goes here!
+    <string name="home_menu_explanation">Welcome to When the heck am I!
     <string name="home_footnote">test home foot note</string>
     </string>
     
@@ -37,8 +37,8 @@
 
     <string name="voice_menu_explanation">Tap to toggle voice menu.
     </string>
-    <string name="home_text">Welcome!</string>
-    <string name="home_level">My Level Pioneer | 110000 pts | Rank 1st</string>
+    <string name="home_text">Level: Pioneer</string>
+    <string name="home_level">110,000 pts | Explorer Rank: 4th</string>
     <string name="home_menu_what_it_does">When the Heck am I lets users explore the heritage of Adelaide by peeking into the past utilising the Google Glass wearable device. Using historic images and information, Explorers are directed to identified Heritage sites, Monuments and Statues within Adelaide!</string>
     
 </resources>
