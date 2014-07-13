@@ -7,6 +7,7 @@
     <Schema Namespace="GovHacSpatialModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="GovHacSpatialModelStoreContainer">
           <EntitySet Name="AccountLevels" EntityType="GovHacSpatialModel.Store.AccountLevels" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Category" EntityType="GovHacSpatialModel.Store.Category" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="CheckIn" EntityType="GovHacSpatialModel.Store.CheckIn" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Image" EntityType="GovHacSpatialModel.Store.Image" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ImageViews" EntityType="GovHacSpatialModel.Store.ImageViews" store:Type="Tables" Schema="dbo" />
@@ -14,6 +15,14 @@
           <EntitySet Name="Likes" EntityType="GovHacSpatialModel.Store.Likes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="PlaceMarker" EntityType="GovHacSpatialModel.Store.PlaceMarker" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="PlaceMarkerType" EntityType="GovHacSpatialModel.Store.PlaceMarkerType" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="vwAccountLevels" EntityType="GovHacSpatialModel.Store.vwAccountLevels" store:Type="Views" store:Schema="dbo" store:Name="vwAccountLevels">
+            <DefiningQuery>SELECT 
+      [vwAccountLevels].[accountId] AS [accountId], 
+      [vwAccountLevels].[Name] AS [Name], 
+      [vwAccountLevels].[Description] AS [Description], 
+      [vwAccountLevels].[imageUrl] AS [imageUrl]
+      FROM [dbo].[vwAccountLevels] AS [vwAccountLevels]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_AccountLevels_1" Association="GovHacSpatialModel.Store.FK_AccountLevels_1">
             <End Role="Levels" EntitySet="Levels" />
             <End Role="AccountLevels" EntitySet="AccountLevels" />
@@ -30,7 +39,7 @@
             <End Role="PlaceMarker" EntitySet="PlaceMarker" />
             <End Role="Likes" EntitySet="Likes" />
           </AssociationSet>
-          <AssociationSet Name="FK_PlaceMarker_0" Association="GovHacSpatialModel.Store.FK_PlaceMarker_0">
+          <AssociationSet Name="FK_PlaceMarker1_0" Association="GovHacSpatialModel.Store.FK_PlaceMarker1_0">
             <End Role="PlaceMarkerType" EntitySet="PlaceMarkerType" />
             <End Role="PlaceMarker" EntitySet="PlaceMarker" />
           </AssociationSet>
@@ -42,6 +51,14 @@
           <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="AccountID" Type="nvarchar" Nullable="false" MaxLength="255" />
           <Property Name="LevelID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="Description" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="CheckIn">
           <Key>
@@ -62,6 +79,16 @@
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="AcreID" Type="int" />
           <Property Name="GeoLocation" Type="geometry" />
+          <Property Name="PublishDate" Type="varchar" MaxLength="1000" />
+          <Property Name="Source" Type="varchar" MaxLength="50" />
+          <Property Name="RecordId" Type="varchar" MaxLength="50" />
+          <Property Name="RecordURL" Type="varchar" MaxLength="1000" />
+          <Property Name="RecordXML" Type="varchar" MaxLength="1000" />
+          <Property Name="Series" Type="varchar" MaxLength="1000" />
+          <Property Name="Format" Type="varchar" MaxLength="1000" />
+          <Property Name="Subject" Type="varchar" MaxLength="1000" />
+          <Property Name="DateAccuracyNotes" Type="varchar" MaxLength="1000" />
+          <Property Name="Provenance" Type="varchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="ImageViews">
           <Key>
@@ -95,8 +122,12 @@
           <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" MaxLength="1000" />
           <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="longitude" Type="float" />
+          <Property Name="latitude" Type="float" />
+          <Property Name="CategoryCode" Type="int" />
+          <Property Name="PlaceMarkerTypeID" Type="int" />
           <Property Name="Geolocation" Type="geography" />
-          <Property Name="PlacemarkerTypeID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="PlaceMarkerType">
           <Key>
@@ -105,6 +136,21 @@
           <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="1000" />
           <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'GovHacSpatial.dbo.vwAccountLevels' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vwAccountLevels">
+          <Key>
+            <PropertyRef Name="accountId" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="imageUrl" />
+          </Key>
+          <Property Name="accountId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="imageUrl" Type="varchar" Nullable="false" MaxLength="9" />
         </EntityType>
         <Association Name="FK_AccountLevels_1">
           <End Role="Levels" Type="GovHacSpatialModel.Store.Levels" Multiplicity="1" />
@@ -154,15 +200,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PlaceMarker_0">
-          <End Role="PlaceMarkerType" Type="GovHacSpatialModel.Store.PlaceMarkerType" Multiplicity="1" />
+        <Association Name="FK_PlaceMarker1_0">
+          <End Role="PlaceMarkerType" Type="GovHacSpatialModel.Store.PlaceMarkerType" Multiplicity="0..1" />
           <End Role="PlaceMarker" Type="GovHacSpatialModel.Store.PlaceMarker" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PlaceMarkerType">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="PlaceMarker">
-              <PropertyRef Name="PlacemarkerTypeID" />
+              <PropertyRef Name="PlaceMarkerTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -186,27 +232,14 @@
           <EntitySet Name="ImageViews" EntityType="GovHacSpatialModel.ImageView" />
           <EntitySet Name="Levels" EntityType="GovHacSpatialModel.Level" />
           <EntitySet Name="Likes" EntityType="GovHacSpatialModel.Like" />
-          <EntitySet Name="PlaceMarkers" EntityType="GovHacSpatialModel.PlaceMarker" />
           <EntitySet Name="PlaceMarkerTypes" EntityType="GovHacSpatialModel.PlaceMarkerType" />
           <AssociationSet Name="FK_AccountLevels_1" Association="GovHacSpatialModel.FK_AccountLevels_1">
             <End Role="Levels" EntitySet="Levels" />
             <End Role="AccountLevels" EntitySet="AccountLevels" />
           </AssociationSet>
-          <AssociationSet Name="FK_CheckIn_0" Association="GovHacSpatialModel.FK_CheckIn_0">
-            <End Role="PlaceMarker" EntitySet="PlaceMarkers" />
-            <End Role="CheckIn" EntitySet="CheckIns" />
-          </AssociationSet>
           <AssociationSet Name="FK_Likes_1" Association="GovHacSpatialModel.FK_Likes_1">
             <End Role="Image" EntitySet="Images" />
             <End Role="Likes" EntitySet="Likes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Likes_2" Association="GovHacSpatialModel.FK_Likes_2">
-            <End Role="PlaceMarker" EntitySet="PlaceMarkers" />
-            <End Role="Likes" EntitySet="Likes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PlaceMarker_0" Association="GovHacSpatialModel.FK_PlaceMarker_0">
-            <End Role="PlaceMarkerType" EntitySet="PlaceMarkerTypes" />
-            <End Role="PlaceMarker" EntitySet="PlaceMarkers" />
           </AssociationSet>
           <FunctionImport Name="spGetPlaceMarker" ReturnType="Collection(GovHacSpatialModel.spGetPlaceMarker_Result)">
             <Parameter Name="Latitude" Mode="In" Type="String" />
@@ -217,6 +250,21 @@
             <Parameter Name="Latitude" Mode="In" Type="String" />
             <Parameter Name="Longitude" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="vwAccountLevels" EntityType="GovHacSpatialModel.vwAccountLevels" />
+          <EntitySet Name="PlaceMarker" EntityType="GovHacSpatialModel.PlaceMarker" />
+          <AssociationSet Name="FK_CheckIn_0" Association="GovHacSpatialModel.FK_CheckIn_0">
+            <End Role="PlaceMarker" EntitySet="PlaceMarker" />
+            <End Role="CheckIn" EntitySet="CheckIns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Likes_2" Association="GovHacSpatialModel.FK_Likes_2">
+            <End Role="PlaceMarker" EntitySet="PlaceMarker" />
+            <End Role="Like" EntitySet="Likes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlaceMarker1_0" Association="GovHacSpatialModel.FK_PlaceMarker1_0">
+            <End Role="PlaceMarkerType" EntitySet="PlaceMarkerTypes" />
+            <End Role="PlaceMarker" EntitySet="PlaceMarker" />
+          </AssociationSet>
+          <EntitySet Name="Category" EntityType="GovHacSpatialModel.Category" />
         </EntityContainer>
         <EntityType Name="AccountLevel">
           <Key>
@@ -235,6 +283,7 @@
           <Property Name="PlaceMarkerID" Type="Int32" Nullable="false" />
           <Property Name="Comment" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="AccountID" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="PlaceMarker" Relationship="GovHacSpatialModel.FK_CheckIn_0" FromRole="CheckIn" ToRole="PlaceMarker" />
         </EntityType>
         <EntityType Name="Image">
           <Key>
@@ -246,6 +295,16 @@
           <Property Name="Description" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="AcreID" Type="Int32" />
           <NavigationProperty Name="Likes" Relationship="GovHacSpatialModel.FK_Likes_1" FromRole="Image" ToRole="Likes" />
+          <Property Type="String" Name="PublishDate" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Source" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RecordId" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RecordURL" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RecordXML" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Series" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Format" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Subject" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="DateAccuracyNotes" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Provenance" MaxLength="1000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ImageView">
           <Key>
@@ -273,16 +332,7 @@
           <Property Name="AccountID" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
           <Property Name="PlaceMarkerID" Type="Int32" />
           <NavigationProperty Name="Image" Relationship="GovHacSpatialModel.FK_Likes_1" FromRole="Likes" ToRole="Image" />
-          <NavigationProperty Name="PlaceMarker" Relationship="GovHacSpatialModel.FK_Likes_2" FromRole="Likes" ToRole="PlaceMarker" />
-        </EntityType>
-        <EntityType Name="PlaceMarker">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="1000" Unicode="true" FixedLength="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="PlacemarkerTypeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PlaceMarker" Relationship="GovHacSpatialModel.FK_Likes_2" FromRole="Like" ToRole="PlaceMarker" />
         </EntityType>
         <EntityType Name="PlaceMarkerType">
           <Key>
@@ -291,8 +341,8 @@
           <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="1000" Unicode="true" FixedLength="false" />
           <Property Name="Description" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="PlaceMarkers" Relationship="GovHacSpatialModel.FK_PlaceMarker_0" FromRole="PlaceMarkerType" ToRole="PlaceMarker" />
-        </EntityType>
+          <NavigationProperty Name="PlaceMarker" Relationship="GovHacSpatialModel.FK_PlaceMarker1_0" FromRole="PlaceMarkerType" ToRole="PlaceMarker" />
+          </EntityType>
         <Association Name="FK_AccountLevels_1">
           <End Role="Levels" Type="GovHacSpatialModel.Level" Multiplicity="1" />
           <End Role="AccountLevels" Type="GovHacSpatialModel.AccountLevel" Multiplicity="*" />
@@ -302,18 +352,6 @@
             </Principal>
             <Dependent Role="AccountLevels">
               <PropertyRef Name="LevelID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CheckIn_0">
-          <End Role="PlaceMarker" Type="GovHacSpatialModel.PlaceMarker" Multiplicity="1" />
-          <End Role="CheckIn" Type="GovHacSpatialModel.CheckIn" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PlaceMarker">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="CheckIn">
-              <PropertyRef Name="PlaceMarkerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -329,37 +367,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Likes_2">
-          <End Role="PlaceMarker" Type="GovHacSpatialModel.PlaceMarker" Multiplicity="0..1" />
-          <End Role="Likes" Type="GovHacSpatialModel.Like" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PlaceMarker">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Likes">
-              <PropertyRef Name="PlaceMarkerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PlaceMarker_0">
-          <End Role="PlaceMarkerType" Type="GovHacSpatialModel.PlaceMarkerType" Multiplicity="1" />
-          <End Role="PlaceMarker" Type="GovHacSpatialModel.PlaceMarker" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PlaceMarkerType">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PlaceMarker">
-              <PropertyRef Name="PlacemarkerTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="spGetPlaceMarker_Result">
           <Property Type="String" Name="Name" Nullable="true" MaxLength="1000" />
           <Property Type="String" Name="Description" Nullable="true" />
-          <Property Type="Int32" Name="PlacemarkerTypeID" Nullable="false" />
+          <Property Type="Int32" Name="PlacemarkerTypeID" Nullable="true" />
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="Lat" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Long" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CategoryDesc" Nullable="true" />
+          <Property Type="String" Name="Distance" Nullable="true" MaxLength="50" />
         </ComplexType>
         <ComplexType Name="spGetImages_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -370,6 +386,76 @@
           <Property Type="String" Name="AcreNumber" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="Description" Nullable="true" />
         </ComplexType>
+        <EntityType Name="vwAccountLevels">
+          <Key>
+            <PropertyRef Name="accountId" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="imageUrl" />
+          </Key>
+          <Property Type="Int32" Name="accountId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="imageUrl" Nullable="false" MaxLength="9" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PlaceMarker">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Address" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Double" Name="longitude" />
+          <Property Type="Double" Name="latitude" />
+          <Property Type="Int32" Name="CategoryCode" />
+          <Property Type="Int32" Name="PlaceMarkerTypeID" />
+          <NavigationProperty Name="PlaceMarkerType" Relationship="GovHacSpatialModel.FK_PlaceMarker1_0" FromRole="PlaceMarker" ToRole="PlaceMarkerType" />
+        </EntityType>
+        <Association Name="FK_CheckIn_0">
+          <End Type="GovHacSpatialModel.PlaceMarker" Role="PlaceMarker" Multiplicity="1" />
+          <End Type="GovHacSpatialModel.CheckIn" Role="CheckIn" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlaceMarker">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CheckIn">
+              <PropertyRef Name="PlaceMarkerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Likes_2">
+          <End Type="GovHacSpatialModel.PlaceMarker" Role="PlaceMarker" Multiplicity="0..1" />
+          <End Type="GovHacSpatialModel.Like" Role="Like" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlaceMarker">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Like">
+              <PropertyRef Name="PlaceMarkerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlaceMarker1_0">
+          <End Type="GovHacSpatialModel.PlaceMarkerType" Role="PlaceMarkerType" Multiplicity="0..1" />
+          <End Type="GovHacSpatialModel.PlaceMarker" Role="PlaceMarker" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlaceMarkerType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PlaceMarker">
+              <PropertyRef Name="PlaceMarkerTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -398,6 +484,16 @@
           <EntitySetMapping Name="Images">
             <EntityTypeMapping TypeName="GovHacSpatialModel.Image">
               <MappingFragment StoreEntitySet="Image">
+                <ScalarProperty Name="Provenance" ColumnName="Provenance" />
+                <ScalarProperty Name="DateAccuracyNotes" ColumnName="DateAccuracyNotes" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Format" ColumnName="Format" />
+                <ScalarProperty Name="Series" ColumnName="Series" />
+                <ScalarProperty Name="RecordXML" ColumnName="RecordXML" />
+                <ScalarProperty Name="RecordURL" ColumnName="RecordURL" />
+                <ScalarProperty Name="RecordId" ColumnName="RecordId" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="PublishDate" ColumnName="PublishDate" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -434,16 +530,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PlaceMarkers">
-            <EntityTypeMapping TypeName="GovHacSpatialModel.PlaceMarker">
-              <MappingFragment StoreEntitySet="PlaceMarker">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="PlacemarkerTypeID" ColumnName="PlacemarkerTypeID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="PlaceMarkerTypes">
             <EntityTypeMapping TypeName="GovHacSpatialModel.PlaceMarkerType">
               <MappingFragment StoreEntitySet="PlaceMarkerType">
@@ -462,6 +548,8 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Lat" ColumnName="Lat" />
                 <ScalarProperty Name="Long" ColumnName="Long" />
+                <ScalarProperty Name="CategoryDesc" ColumnName="CategoryDesc" />
+                <ScalarProperty Name="Distance" ColumnName="Distance" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -478,6 +566,39 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="vwAccountLevels">
+            <EntityTypeMapping TypeName="GovHacSpatialModel.vwAccountLevels">
+              <MappingFragment StoreEntitySet="vwAccountLevels">
+                <ScalarProperty Name="imageUrl" ColumnName="imageUrl" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="accountId" ColumnName="accountId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlaceMarker">
+            <EntityTypeMapping TypeName="GovHacSpatialModel.PlaceMarker">
+              <MappingFragment StoreEntitySet="PlaceMarker">
+                <ScalarProperty Name="PlaceMarkerTypeID" ColumnName="PlaceMarkerTypeID" />
+                <ScalarProperty Name="CategoryCode" ColumnName="CategoryCode" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Category">
+            <EntityTypeMapping TypeName="GovHacSpatialModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

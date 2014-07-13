@@ -17,6 +17,12 @@ namespace GovHacDal
         public int ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int PlacemarkerTypeID { get; set; }
+        public string Address { get; set; }
+        public Nullable<double> longitude { get; set; }
+        public Nullable<double> latitude { get; set; }
+        public Nullable<int> CategoryCode { get; set; }
+        public Nullable<int> PlaceMarkerTypeID { get; set; }
+    
+        public virtual PlaceMarkerType PlaceMarkerType { get; set; }
     }
 }

@@ -34,8 +34,10 @@ namespace GovHacDal
         public DbSet<ImageView> ImageViews { get; set; }
         public DbSet<Level> Levels { get; set; }
         public DbSet<Like> Likes { get; set; }
-        public DbSet<PlaceMarker> PlaceMarkers { get; set; }
         public DbSet<PlaceMarkerType> PlaceMarkerTypes { get; set; }
+        public DbSet<vwAccountLevels> vwAccountLevels { get; set; }
+        public DbSet<PlaceMarker> PlaceMarker { get; set; }
+        public DbSet<Category> Category { get; set; }
     
         public virtual ObjectResult<spGetPlaceMarker_Result> spGetPlaceMarker(string latitude, string longitude)
         {

@@ -11,13 +11,15 @@
         <EntityTypeShape EntityType="GovHacSpatialModel.ImageView" Width="1.5" PointX="7.75" PointY="2.125" IsExpanded="true" />
         <EntityTypeShape EntityType="GovHacSpatialModel.Level" Width="1.5" PointX="5.75" PointY="7.25" IsExpanded="true" />
         <EntityTypeShape EntityType="GovHacSpatialModel.Like" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GovHacSpatialModel.PlaceMarker" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
         <EntityTypeShape EntityType="GovHacSpatialModel.PlaceMarkerType" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
         <AssociationConnector Association="GovHacSpatialModel.FK_AccountLevels_1" ManuallyRouted="false" />
-        <AssociationConnector Association="GovHacSpatialModel.FK_CheckIn_0" ManuallyRouted="false" />
         <AssociationConnector Association="GovHacSpatialModel.FK_Likes_1" ManuallyRouted="false" />
-        <AssociationConnector Association="GovHacSpatialModel.FK_Likes_2" ManuallyRouted="false" />
-        <AssociationConnector Association="GovHacSpatialModel.FK_PlaceMarker_0" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="GovHacSpatialModel.vwAccountLevels" Width="1.5" PointX="1.187156556726972" PointY="30.784044175773879" />
+        <EntityTypeShape EntityType="GovHacSpatialModel.PlaceMarker" Width="2.375" PointX="2.625" PointY="12.875" />
+        <AssociationConnector Association="GovHacSpatialModel.FK_CheckIn_0" />
+        <AssociationConnector Association="GovHacSpatialModel.FK_Likes_2" />
+        <AssociationConnector Association="GovHacSpatialModel.FK_PlaceMarker1_0" />
+        <EntityTypeShape EntityType="GovHacSpatialModel.Category" Width="1.5" PointX="6.5" PointY="11.625" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

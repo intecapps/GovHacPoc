@@ -15,5 +15,7 @@ namespace Heritage.Models
         public string Latitude { get; set; }
         public string Longitude { get; set; }
         public string ArceNumber { get; set; }
+        public string PublishDate {get;set;}
+        public string Title { get; set; }
     }
 }

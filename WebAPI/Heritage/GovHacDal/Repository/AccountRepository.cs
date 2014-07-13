@@ -6,8 +6,18 @@ using System.Threading.Tasks;
 
 namespace GovHacDal.Repository
 {
-    public static class ImageRepository
+    public static class AccountRepository
     {
+        public static bool Checkin(int accountId, int placeMarkerId, string comment)
+        {
+            return true;
+        }
+
+        public static bool ImageView(int accountId, int imageId)
+        {
+            return true;
+        }
+
 
         public static List<vwAccountLevels> GetAccountLevels(int accountId)
         {

@@ -16,13 +16,13 @@ namespace GovHacDal
     {
         public PlaceMarkerType()
         {
-            this.PlaceMarkers = new HashSet<PlaceMarker>();
+            this.PlaceMarker = new HashSet<PlaceMarker>();
         }
     
         public int ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
     
-        public virtual ICollection<PlaceMarker> PlaceMarkers { get; set; }
+        public virtual ICollection<PlaceMarker> PlaceMarker { get; set; }
     }
 }

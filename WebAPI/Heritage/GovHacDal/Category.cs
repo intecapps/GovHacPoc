@@ -12,13 +12,10 @@ namespace GovHacDal
     using System;
     using System.Collections.Generic;
     
-    public partial class CheckIn
+    public partial class Category
     {
         public int ID { get; set; }
-        public int PlaceMarkerID { get; set; }
-        public string Comment { get; set; }
-        public string AccountID { get; set; }
-    
-        public virtual PlaceMarker PlaceMarker { get; set; }
+        public string Code { get; set; }
+        public string Description { get; set; }
     }
 }
