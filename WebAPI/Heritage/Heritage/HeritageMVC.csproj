@@ -179,6 +179,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\MockData.cs" />
+    <Compile Include="Models\AccountLevel.cs" />
     <Compile Include="Models\Acre.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\Level.cs" />
@@ -188,6 +189,7 @@
     <Compile Include="Schedule\LastKnownLocationJob.cs" />
     <Compile Include="Schedule\ScheduleUtil.cs" />
     <Compile Include="Utilities\ConfigUtil.cs" />
+    <Compile Include="Utilities\TroveApi.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

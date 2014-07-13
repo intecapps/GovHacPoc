@@ -11,6 +11,17 @@ namespace Heritage.Utilities
         public static string GetLastKnowLocationUrl() {
             return GetProperty("LastKnownLocationUrl");
         }
+
+        public static string GetPostToGlassUrl()
+        {
+            return GetProperty("PostToGlassUrl");
+        }
+
+        public static string GetTroveApiUrl()
+        {
+            return GetProperty("TroveApiUrl");
+        }
+
         /// <summary>
         /// This method returns the passed in property name, if the property name is
         /// null or if the property does not exist then an empty string will be returned.

@@ -18,5 +18,7 @@ namespace GovHacDal
         public int PlaceMarkerID { get; set; }
         public string Comment { get; set; }
         public string AccountID { get; set; }
+    
+        public virtual PlaceMarker PlaceMarker { get; set; }
     }
 }
