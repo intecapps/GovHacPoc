@@ -7,6 +7,7 @@
     <Schema Namespace="GovHacSpatialModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="GovHacSpatialModelStoreContainer">
           <EntitySet Name="AccountLevels" EntityType="GovHacSpatialModel.Store.AccountLevels" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Category" EntityType="GovHacSpatialModel.Store.Category" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="CheckIn" EntityType="GovHacSpatialModel.Store.CheckIn" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Image" EntityType="GovHacSpatialModel.Store.Image" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ImageViews" EntityType="GovHacSpatialModel.Store.ImageViews" store:Type="Tables" Schema="dbo" />
@@ -51,6 +52,14 @@
           <Property Name="AccountID" Type="nvarchar" Nullable="false" MaxLength="255" />
           <Property Name="LevelID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="Description" Type="varchar(max)" />
+        </EntityType>
         <EntityType Name="CheckIn">
           <Key>
             <PropertyRef Name="ID" />
@@ -70,6 +79,16 @@
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="AcreID" Type="int" />
           <Property Name="GeoLocation" Type="geometry" />
+          <Property Name="PublishDate" Type="varchar" MaxLength="1000" />
+          <Property Name="Source" Type="varchar" MaxLength="50" />
+          <Property Name="RecordId" Type="varchar" MaxLength="50" />
+          <Property Name="RecordURL" Type="varchar" MaxLength="1000" />
+          <Property Name="RecordXML" Type="varchar" MaxLength="1000" />
+          <Property Name="Series" Type="varchar" MaxLength="1000" />
+          <Property Name="Format" Type="varchar" MaxLength="1000" />
+          <Property Name="Subject" Type="varchar" MaxLength="1000" />
+          <Property Name="DateAccuracyNotes" Type="varchar" MaxLength="1000" />
+          <Property Name="Provenance" Type="varchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="ImageViews">
           <Key>
@@ -245,6 +264,7 @@
             <End Role="PlaceMarkerType" EntitySet="PlaceMarkerTypes" />
             <End Role="PlaceMarker" EntitySet="PlaceMarker" />
           </AssociationSet>
+          <EntitySet Name="Category" EntityType="GovHacSpatialModel.Category" />
         </EntityContainer>
         <EntityType Name="AccountLevel">
           <Key>
@@ -275,6 +295,16 @@
           <Property Name="Description" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="AcreID" Type="Int32" />
           <NavigationProperty Name="Likes" Relationship="GovHacSpatialModel.FK_Likes_1" FromRole="Image" ToRole="Likes" />
+          <Property Type="String" Name="PublishDate" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Source" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RecordId" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RecordURL" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RecordXML" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Series" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Format" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Subject" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="DateAccuracyNotes" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Provenance" MaxLength="1000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ImageView">
           <Key>
@@ -344,6 +374,8 @@
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="Lat" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Long" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CategoryDesc" Nullable="true" />
+          <Property Type="String" Name="Distance" Nullable="true" MaxLength="50" />
         </ComplexType>
         <ComplexType Name="spGetImages_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -416,6 +448,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -444,6 +484,16 @@
           <EntitySetMapping Name="Images">
             <EntityTypeMapping TypeName="GovHacSpatialModel.Image">
               <MappingFragment StoreEntitySet="Image">
+                <ScalarProperty Name="Provenance" ColumnName="Provenance" />
+                <ScalarProperty Name="DateAccuracyNotes" ColumnName="DateAccuracyNotes" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Format" ColumnName="Format" />
+                <ScalarProperty Name="Series" ColumnName="Series" />
+                <ScalarProperty Name="RecordXML" ColumnName="RecordXML" />
+                <ScalarProperty Name="RecordURL" ColumnName="RecordURL" />
+                <ScalarProperty Name="RecordId" ColumnName="RecordId" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="PublishDate" ColumnName="PublishDate" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -498,6 +548,8 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Lat" ColumnName="Lat" />
                 <ScalarProperty Name="Long" ColumnName="Long" />
+                <ScalarProperty Name="CategoryDesc" ColumnName="CategoryDesc" />
+                <ScalarProperty Name="Distance" ColumnName="Distance" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -534,6 +586,15 @@
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Category">
+            <EntityTypeMapping TypeName="GovHacSpatialModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

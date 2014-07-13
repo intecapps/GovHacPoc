@@ -19,5 +19,7 @@ namespace GovHacDal
         public int ID { get; set; }
         public string Lat { get; set; }
         public string Long { get; set; }
+        public string CategoryDesc { get; set; }
+        public string Distance { get; set; }
     }
 }

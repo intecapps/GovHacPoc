@@ -53,6 +53,9 @@
     <Compile Include="AccountLevel.cs">
       <DependentUpon>GovHacModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Category.cs">
+      <DependentUpon>GovHacModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="CheckIn.cs">
       <DependentUpon>GovHacModel.tt</DependentUpon>
     </Compile>

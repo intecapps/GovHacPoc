@@ -44,7 +44,10 @@ namespace Heritage.Controllers
                     PlaceMarkerId = p.ID,
                     PlaceMarkerTypeID = (p.PlacemarkerTypeID.HasValue) ? p.PlacemarkerTypeID.Value : 0,
                     Longitude = p.Long,
-                    Latitude = p.Lat
+                    Latitude = p.Lat,
+                    CategoryDesc = p.CategoryDesc,
+                    Distance=p.Distance
+
                 }));
 
                 res.ResponseObject = convertedPlaces;

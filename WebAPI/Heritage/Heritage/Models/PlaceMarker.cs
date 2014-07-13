@@ -14,6 +14,8 @@ namespace Heritage.Models
         public int PlaceMarkerTypeID { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
+        public string CategoryDesc { get; set; }
+        public string Distance { get; set; }
     }
     
 }
