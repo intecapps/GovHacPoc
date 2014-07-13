@@ -22,6 +22,33 @@ namespace GovHacDal.Repository
                 return entities.spGetImages(placeMarkerId,lat, lon).ToList();
             }
         }
+        public static string GetPlaceMarkerName(int placeMarkerId , bool shortName)
+        {
+            using (GovHacSpatialEntities entities = new GovHacSpatialEntities())
+            {
+
+                string placeName = entities.PlaceMarker.Where(pm => pm.ID == placeMarkerId).Select(pm=>pm.Name).FirstOrDefault();
+
+                if (!string.IsNullOrWhiteSpace(placeName))
+                {
+
+                    if (shortName)
+                    {
+
+                        int idx=placeName.IndexOf("(");
+
+                        if (idx >=0)
+                        {
+
+                            string smallName = placeName.Substring(0, idx - 1);
+                            placeName = smallName;
+                        }
+                    }
+
+                }
+                return placeName;
+            }
+        }
 
     }
 }

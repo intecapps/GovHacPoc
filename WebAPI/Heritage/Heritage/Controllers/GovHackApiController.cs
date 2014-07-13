@@ -81,11 +81,12 @@ namespace Heritage.Controllers
 
                 if (placeMarkerId > 0)
                 {
-                    // then we need to perform a search in trove for the keyword on the placemarker.
-                    List<Image> troveImages = TroveApi.GetImages("Adelaide GPO");
+                    string name = PlacemarkerRepository.GetPlaceMarkerName(placeMarkerId, true);
+
+                    name = "adelaide GPO sandbagging";
+                    List<Image> troveImages = TroveApi.GetImages(name);
 
                     List<String> convertedImageUrls = convertedImages.Select(ci => ci.ImageUrl).ToList();
-
                     convertedImages.AddRange(troveImages.Where(im => convertedImageUrls.Contains(im.ImageUrl) == false));
                     
                 }
@@ -147,10 +148,11 @@ namespace Heritage.Controllers
 
                 var accountLevels = AccountRepository.GetAccountLevels(accountId);
 
-                levels.AddRange(accountLevels.Select(al => new AccountLevel { 
+                levels.AddRange(accountLevels.Select(al => new AccountLevel
+                {
                     AccountId = al.accountId,
                     Description = al.Description,
-                    Image= al.imageUrl,
+                    Image = al.imageUrl,
                     Level = al.Name
                 }));
                 res.ResponseObject = levels;
@@ -162,5 +164,6 @@ namespace Heritage.Controllers
             }
             return res;
         }
+        
     }
 }

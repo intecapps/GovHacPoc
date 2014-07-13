@@ -28,6 +28,10 @@ namespace Heritage.Utilities
 
         private const string ART_GALLERY_LARGE_IMAGE_URL = "http://artsearch.nga.gov.au/Images/LRG/";
 
+        private const string WAR_MEMORIAL_URL = "http://cas.awm.gov.au/thumb_img/";
+
+        private const string WAR_MEMORIAL_IMAGE_RUL = "http://static.awm.gov.au/images/collection/items/ACCNUM_SCREEN/{0}.JPG";
+
         public static List<Image> GetImages(string query)
         {
             List<Image> images = new List<Image>();
@@ -72,6 +76,10 @@ namespace Heritage.Utilities
                 {
                     img = GetArtGalleryImage(node, imageUrl);
                 }
+                else if (imageUrl.StartsWith(WAR_MEMORIAL_URL))
+                {
+                    img = GetWarMemorialImage(node, imageUrl);
+                }
                 
 
                 /*
@@ -94,6 +102,32 @@ namespace Heritage.Utilities
 
             }
             return images;
+        }
+
+        private static Image GetWarMemorialImage(XmlNode node, string imageUrl)
+        {
+            Image img = null;
+            int lastIndexOf = imageUrl.LastIndexOf("/");
+
+            if (lastIndexOf >= 0)
+            {
+                string imageNumber = imageUrl.Substring(lastIndexOf + 1);
+
+                imageUrl = string.Format(WAR_MEMORIAL_IMAGE_RUL, imageNumber);
+                XmlNode parentNode = node.ParentNode;
+                XmlNode snippet = parentNode.SelectSingleNode("snippet");
+
+                XmlNode issuedNode = parentNode.SelectSingleNode("issued");
+                XmlNode titleNode = parentNode.SelectSingleNode("title");
+
+                string desc = (parentNode == null || snippet == null) ? "" : snippet.InnerText;
+                string issued = (issuedNode == null) ? "" : issuedNode.InnerText;
+                string title = (titleNode == null) ? "" : titleNode.InnerText;
+
+                img = new Image { ImageUrl = imageUrl, Name = desc, Description = desc, PublishDate = issued, Title = title };
+            }
+
+            return img;
         }
 
         private static Image GetArtGalleryImage(XmlNode node, string imageUrl)
