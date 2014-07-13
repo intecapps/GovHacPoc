@@ -165,7 +165,8 @@ public class JSONUtil {
 			location.setName(row.getString("Name"));
 			location.setDescription(row.getString("Description"));
 			location.setPlaceMarkerTypeId(row.getString("PlaceMarkerTypeID"));
-			
+			location.setPlaceMarkerCat(row.getString("CategoryDesc"));
+			location.setDistance(row.getString("Distance"));
 		} catch (Exception e) {
 			Log.e(TAG, " Exception in Get Location:" + e.getMessage());
 			location = null;

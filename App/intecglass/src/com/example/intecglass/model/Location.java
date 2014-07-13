@@ -1,7 +1,9 @@
 package com.example.intecglass.model;
 
+import java.io.Serializable;
 
-public class Location extends Base {
+
+public class Location extends Base implements Serializable {
 	private String LocationId;
     
     private String Name;
@@ -13,6 +15,10 @@ public class Location extends Base {
     public String Lon;
     
     private String PlaceMarkerTypeId;
+    
+    private String PlaceMarkerCat;
+    
+    private String distance; 
    
     public void setLocationId(String locationId) {
         this.LocationId = locationId;
@@ -62,7 +68,23 @@ public class Location extends Base {
         this.PlaceMarkerTypeId = placeMarkerTypeId;
     }
     
-    /**
+    public String getPlaceMarkerCat() {
+		return PlaceMarkerCat;
+	}
+
+	public String getDistance() {
+		return distance;
+	}
+
+	public void setDistance(String distance) {
+		this.distance = distance;
+	}
+
+	public void setPlaceMarkerCat(String placeMarkerCat) {
+		PlaceMarkerCat = placeMarkerCat;
+	}
+
+	/**
      * This method overrides the hashCode method.
      * @return int representing the hashcode.
      */

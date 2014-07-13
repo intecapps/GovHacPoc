@@ -24,8 +24,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.example.intecglass.activity.AbstractActivity;
-import com.example.intecglass.activity.AuthActivity;
 import com.example.intecglass.card.CardListAdapter;
 import com.example.intecglass.constant.Constant;
 import com.google.android.glass.media.Sounds;
@@ -59,7 +57,7 @@ public class AuthActivity extends AbstractActivity implements Constant{
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
-        mAdapter = new CardListAdapter(createAuthCards(this));
+        mAdapter = new CardListAdapter( createAuthCards(this));
         mCardScroller = new CardScrollView(this);
         mCardScroller.setAdapter(mAdapter);
         setContentView(mCardScroller);

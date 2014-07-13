@@ -25,8 +25,8 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.example.intecglass.activity.AbstractActivity;
-import com.example.intecglass.activity.HomeActivity;
 import com.example.intecglass.activity.AuthActivity;
+import com.example.intecglass.activity.HomeActivity;
 import com.example.intecglass.card.CardListAdapter;
 import com.example.intecglass.constant.Constant;
 import com.example.intecglass.persistence.Storage;

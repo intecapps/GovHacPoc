@@ -4,8 +4,10 @@ import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.intecglass.listener.ServerCallbackListener;
+import com.example.intecglass.util.ActivityUtil;
 import com.example.intecglass.util.HttpUtil;
 import com.example.intecglass.util.JSONUtil;
 
@@ -21,7 +23,6 @@ public class PostToURLTask extends AsyncTask<PostToURL, Void, JSONObject>{
 	 * Flag indicating whether the request is a GET request.
 	 */
 	private boolean isGet;
-	
 	
 	/**
 	 * This method executes the url passed in. It only support 1 URL at a time if more than 1 is passed in
@@ -63,6 +64,13 @@ public class PostToURLTask extends AsyncTask<PostToURL, Void, JSONObject>{
 	}
 
 	
+	/*@Override
+	protected void onProgressUpdate(Void... values) {
+		ActivityUtil.showToast("Loading");
+		//super.onProgressUpdate(values);
+	}*/
+
+
 	/* (non-Javadoc)
 	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
 	 */

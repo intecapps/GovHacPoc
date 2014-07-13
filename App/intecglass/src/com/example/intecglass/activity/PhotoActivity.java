@@ -34,41 +34,47 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.example.intecglass.R;
-import com.example.intecglass.api.DownloadImage;
 import com.example.intecglass.card.CardListAdapter;
 import com.example.intecglass.constant.Constant;
-import com.example.intecglass.listener.DownloadImageCallbackListener;
 import com.example.intecglass.listener.ServerCallbackListener;
 import com.example.intecglass.model.Image;
 import com.example.intecglass.model.Location;
-import com.example.intecglass.persistence.Storage;
+import com.example.intecglass.util.ActivityUtil;
 import com.example.intecglass.util.GenericUtil;
 import com.example.intecglass.util.JSONUtil;
 import com.google.android.glass.app.Card;
 import com.google.android.glass.app.Card.ImageLayout;
+import com.google.android.glass.media.Sounds;
 import com.google.android.glass.widget.CardScrollView;
 
 /**
  * Creates a card scroll view with examples of different image layout cards.
  */
-public final class PhotoActivity extends AbstractActivity implements ServerCallbackListener, DownloadImageCallbackListener{
+public final class PhotoActivity extends AbstractActivity implements ServerCallbackListener {
 
     private CardScrollView mCardScroller;
     
     ArrayList<Card> cards = new ArrayList<Card>();
+    List<Image> images;
     
     public String outputString  = "There was an isue getting the loction data. Please try again later";
-    public Bitmap image;
+
+   Bitmap image;
    
+   static boolean imageCallback; 
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -83,16 +89,16 @@ public final class PhotoActivity extends AbstractActivity implements ServerCallb
         mCardScroller = new CardScrollView(this);
         mCardScroller.setAdapter(new CardListAdapter(createCards(this)));
         setContentView(mCardScroller);
+        //setCardScrollerListener();
     }
     
     
-    private List<Card> updateCards(Context context, String name, String description, String imageUrl) {
+    private List<Card> updateCards(Context context, String name, String description, Bitmap image) {
     	Card card = new Card(context);
     		
-		card.setImageLayout(ImageLayout.LEFT)
-		.setTimestamp(getCurrentTimeStamp())
+		card.setImageLayout(ImageLayout.FULL)
+		.addImage(image)
         .setText(name + "\n" + description);
-		new DownloadImage(this).execute(imageUrl, card);
 		cards.add(card);
 		
         return cards;
@@ -135,6 +141,8 @@ public final class PhotoActivity extends AbstractActivity implements ServerCallb
 
         cards.add(getCard(context)
                 .setImageLayout(ImageLayout.FULL)
+                .addImage(R.drawable.photobg)
+                .setFootnote("Loading...")
                 .setText(R.string.menu_photos));
         return cards;
     }
@@ -170,9 +178,6 @@ public final class PhotoActivity extends AbstractActivity implements ServerCallb
 				String lat = myLocation.getString("latitude");
 				String lon = myLocation.getString("longitude");
 				
-				/*String longitude = myLocation.getString("longitude");
-				String latitude = myLocation.getString("latitude");*/
-				
 				//lets get some data for our Locations list
 				final List<BasicNameValuePair> parameters = new ArrayList<BasicNameValuePair>();
 		        String action = getString(R.string.action_getimages);
@@ -186,21 +191,93 @@ public final class PhotoActivity extends AbstractActivity implements ServerCallb
 			}
 		}
 		else {
-			List<Image> list = JSONUtil.getImagesFromJSONObject(obj);
-	        for (Image item : list) {
-	        	String name = item.getName();
-	        	String description = item.getDescription();
-	        	String imageUrl = item.getImageUrl();
-				updateCards(getBaseContext(), name, description, imageUrl);
+			images = JSONUtil.getImagesFromJSONObject(obj);
+			
+			for (Image item : images) {
+	        	Image img = new Image();
+	        	img.setName(item.getName());
+	        	img.setImageUrl(item.getImageUrl());
+	        	img.setDescription(item.getDescription());
+	        	new DownloadImage().execute(img);
+	        	
 			}
+			 ActivityUtil.showToast(this, "Swipe to see historic Adelaide photo locations near you");
 		}
 	}
+	
+	public class DownloadImage extends AsyncTask<Image, Void, Image> {
 
+	@Override
+		protected Image doInBackground(Image... params) {
+			// TODO Auto-generated method stub
+			return downloadBitmap(params[0]);
+		}
+
+		@Override
+		protected void onPostExecute(Image result) {
+			// TODO Auto-generated method stub
+			//super.onPostExecute(result);
+			try {
+			updateCards(getBaseContext(), result.getName(), result.getDescription(), result.getBitmap());
+			}
+			catch (Exception e ) {
+				Log.e("Image fail", "Failed to download image data");
+			}
+		}
+
+	private Image downloadBitmap(Image img) {
+		// initilize the default HTTP client object
+		final DefaultHttpClient client = new DefaultHttpClient();
+		//this.listener = listener;
+		//forming a HttoGet request 
+		final HttpGet getRequest = new HttpGet(img.getImageUrl());
+		try {
+
+			HttpResponse response = client.execute(getRequest);
+
+			//check 200 OK for success
+			final int statusCode = response.getStatusLine().getStatusCode();
+
+			if (statusCode != HttpStatus.SC_OK) {
+				Log.w("ImageDownloader", "Error " + statusCode + 
+						" while retrieving bitmap from " + img.getImageUrl());
+				return null;
+
+			}
+
+			final HttpEntity entity = response.getEntity();
+			if (entity != null) {
+				InputStream inputStream = null;
+				try {
+					// getting contents from the stream 
+					inputStream = entity.getContent();
+
+					// decoding stream data back into image Bitmap that android understands
+					final Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+					img.setBitmap(bitmap);
+					return img;
+				} finally {
+					if (inputStream != null) {
+						inputStream.close();
+					}
+					entity.consumeContent();
+				}
+			}
+		} catch (Exception e) {
+			// You Could provide a more explicit error message for IOException
+			getRequest.abort();
+			Log.e("ImageDownloader", "Something went wrong while" +
+					" retrieving bitmap from " + img.getImageUrl() + e.toString());
+		} 
+
+		return null;
+	}
+	}
 
 	@Override
 	public void processPostCallback(JSONObject obj) {
 		// TODO Auto-generated method stub
-		Log.i("LoctaionActivity", obj.toString());
+		
 	}
 
 
@@ -209,19 +286,27 @@ public final class PhotoActivity extends AbstractActivity implements ServerCallb
 		// TODO Auto-generated method stub
 		
 	}
+	
+	/**
+     * Different type of activities can be shown, when tapped on a card.
+     */
+    private void setCardScrollerListener() {
+        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-
-	@Override
-	public void processImage(Bitmap image) {
-		// TODO Auto-generated method stub
-		this.image = image;
-	}
-
-
-	@Override
-	public void showDownloadErrorMessage() {
-		// TODO Auto-generated method stub
-		
-	}
- 
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("LocationActivity", "Clicked view at position " + position + ", row-id " + id);
+                int soundEffect = Sounds.TAP;
+                for (Image img : images) {
+                	Intent intent = new Intent(PhotoActivity.this, PhotoDetailActivity.class);
+                	intent.putExtra("Image", img);
+                    startActivity(intent);
+				}
+                // Play sound.
+                AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                am.playSoundEffect(soundEffect);
+            }
+        
+        });
+    }
 }

@@ -21,31 +21,25 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.example.intecglass.activity.AbstractActivity;
-import com.example.intecglass.activity.HomeActivity;
+import com.example.intecglass.R;
 import com.example.intecglass.card.CardListAdapter;
 import com.example.intecglass.constant.Constant;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
 
-/**
- * Creates a card scroll view with examples of different GDK APIs.
- *
- * <ol>
- * <li> Cards
- * <li> GestureDetector
- * <li> textAppearance[Large|Medium|Small]
- * <li> OpenGL LiveCard
- * <li> VoiceMenu
- * </ol>
- */
+
 public class HomeActivity extends AbstractActivity implements Constant{
 
-    private static final String TAG = HomeActivity.class.getSimpleName();
+
+	private static final String TAG = HomeActivity.class.getSimpleName();
 
     private CardScrollAdapter mAdapter;
     private CardScrollView mCardScroller;
@@ -78,6 +72,8 @@ public class HomeActivity extends AbstractActivity implements Constant{
         super.onPause();
     }
 
+    
+    
     /**
      * Different type of activities can be shown, when tapped on a card.
      */

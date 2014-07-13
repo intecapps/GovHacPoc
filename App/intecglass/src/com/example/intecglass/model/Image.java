@@ -1,7 +1,11 @@
 package com.example.intecglass.model;
 
+import java.io.Serializable;
 
-public class Image extends Base {
+import android.graphics.Bitmap;
+
+
+public class Image extends Base implements Serializable {
 	private String ImageId;
     
     private String Name;
@@ -12,6 +16,8 @@ public class Image extends Base {
     
     
     private String ImageUrl;
+
+	private Bitmap bitmap;
    
     public void setImageId(String locationId) {
         this.ImageId = locationId;
@@ -97,6 +103,16 @@ public class Image extends Base {
 
         return res;
     }
+
+	public void setBitmap(Bitmap bitmap) {
+		// TODO Auto-generated method stub
+		this.bitmap = bitmap;
+	}
+
+	public Bitmap getBitmap() {
+		// TODO Auto-generated method stub
+		return this.bitmap;
+	}
     
     
     

@@ -21,12 +21,14 @@
     </string>
     
     <!-- Used for tour options to describe which option will be triggered. -->
-    <string name="text_heritage">Heritage buildings</string>
+    <string name="text_heritage">Nearby Heritage Places</string>
     <string name="text_photos">Historical Adelaide Photos</string>
     
     <!-- Used to build a voice menu. -->
-    <string name="menu_heritage">Heritage Buildings</string>
+    <string name="menu_heritage">Heritage Locations</string>
     <string name="menu_photos">Historical Photographs</string>
+    <string name="menu_find_photos">Find Related Photos</string>
+    <string name="menu_report">Report an Issue</string>
     <string name="menu_show_detail">Show me more</string>
     <string name="menu_read_on">Read on</string>
     <string name="menu_get_directions">Take me there</string>
@@ -36,7 +38,7 @@
     <string name="voice_menu_explanation">Tap to toggle voice menu.
     </string>
     <string name="home_text">Welcome!</string>
-    <string name="home_level">Level: Pioneer | 110000 pts | Rank: 1st</string>
-    <string name="home_menu_what_it_does">What the app does spiel auth goes here too. This will only run once initially or until user auths with their google ID</string>
+    <string name="home_level">My Level Pioneer | 110000 pts | Rank 1st</string>
+    <string name="home_menu_what_it_does">When the Heck am I lets users explore the heritage of Adelaide by peeking into the past utilising the Google Glass wearable device. Using historic images and information, Explorers are directed to identified Heritage sites, Monuments and Statues within Adelaide!</string>
     
 </resources>
