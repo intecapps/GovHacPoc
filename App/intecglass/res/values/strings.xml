@@ -5,9 +5,9 @@
     <string name="action_auth">authglass</string>
     <string name="action_getlastknownlocation">getLastKnownLocation</string>
     <!-- Mobile APi url -->
-    <string name="mobileServiceUrl">https://***REMOVED***service.azure-mobile.net/api/</string>
+    <string name="mobileServiceUrl">https://intecggservice.azure-mobile.net/api/</string>
     <!-- Mobile APi url -->
-    <string name="webServiceUrl">http://***REMOVED***mirror.azurewebsites.net/api/GovHackApi/</string>
+    <string name="webServiceUrl">http://intecggmirror.azurewebsites.net/api/GovHackApi/</string>
     
     <!-- Web APi ACTIONS -->
     <string name="action_getimages">GetImages</string>
