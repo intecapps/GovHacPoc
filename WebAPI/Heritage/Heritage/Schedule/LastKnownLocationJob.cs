@@ -59,7 +59,7 @@ namespace Heritage.Schedule
             // call the post to glass url
             response = client.Execute(request);
             
-            var str = "";
+
         }
     }
 }

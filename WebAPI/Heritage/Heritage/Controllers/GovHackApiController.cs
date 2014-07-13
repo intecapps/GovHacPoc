@@ -70,7 +70,9 @@ namespace Heritage.Controllers
                 if (placeMarkerId > 0)
                 {
                     // then we need to perform a search in trove for the keyword on the placemarker.
-                    TroveApi.GetImages("Adelaide Mosque");
+                    string name = PlacemarkerRepository.GetPlaceMarkerName(placeMarkerId, true);
+
+                    TroveApi.GetImages(name);
                 }
                 convertedImages.AddRange(images.Select(im => new Image
                 {
@@ -141,10 +143,11 @@ namespace Heritage.Controllers
 
                 var accountLevels = AccountRepository.GetAccountLevels(accountId);
 
-                levels.AddRange(accountLevels.Select(al => new AccountLevel { 
+                levels.AddRange(accountLevels.Select(al => new AccountLevel
+                {
                     AccountId = al.accountId,
                     Description = al.Description,
-                    Image= al.imageUrl,
+                    Image = al.imageUrl,
                     Level = al.Name
                 }));
                 res.ResponseObject = levels;
@@ -156,5 +159,6 @@ namespace Heritage.Controllers
             }
             return res;
         }
+        
     }
 }
