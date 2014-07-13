@@ -75,12 +75,14 @@ public final class PhotoActivity extends AbstractActivity implements ServerCallb
    Bitmap image;
    
    static boolean imageCallback; 
+   
+   public String placeMarkerId;
 
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         // get an image
-
+        placeMarkerId = getIntent().getStringExtra("PlaceMarkerId");
         //get my location from mirror
         String action = getString(R.string.action_getlastknownlocation);
         GenericUtil.executeGet(this, action, null, this, false);
@@ -183,7 +185,12 @@ public final class PhotoActivity extends AbstractActivity implements ServerCallb
 		        String action = getString(R.string.action_getimages);
 				parameters.add(new BasicNameValuePair(Constant.LAT, lat));
 				parameters.add(new BasicNameValuePair(Constant.LON, lon));
-				parameters.add(new BasicNameValuePair(Constant.PLACEMARKERID, "0"));
+				if (placeMarkerId == null) {
+					parameters.add(new BasicNameValuePair(Constant.PLACEMARKERID, "0"));
+				}
+				else {
+					parameters.add(new BasicNameValuePair(Constant.PLACEMARKERID, placeMarkerId));
+				}
 		        GenericUtil.executeGet(this, action, parameters, this, true);
 				
 			} catch (JSONException e){

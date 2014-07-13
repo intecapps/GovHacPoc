@@ -51,7 +51,7 @@ public final class LocationDetailActivity extends AbstractActivity{
 
     public String outputString  = "There was an isue getting the loction data. Please try again later";
     public Bitmap image;
-   
+    public Location location;
     
     @Override
    	public boolean onCreateOptionsMenu(Menu menu) {
@@ -80,8 +80,10 @@ public final class LocationDetailActivity extends AbstractActivity{
                    AuthActivity.class));
                    return true;
                case R.id.menu_find_photos:
-                   startActivity(new Intent(this,
-                   AuthActivity.class));
+            	   Intent intent = new Intent(this,
+                           PhotoActivity.class);
+            	   intent.putExtra("PlaceMarkerId", location.getLocationId());
+                   startActivity(intent);
                    return true;
                default:
    		return super.onOptionsItemSelected(item);
@@ -100,7 +102,7 @@ public final class LocationDetailActivity extends AbstractActivity{
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        Location location = (Location) getIntent().getSerializableExtra("Location");
+        location = (Location) getIntent().getSerializableExtra("Location");
         //set up scroll
         
         mCardScroller = new CardScrollView(this);
